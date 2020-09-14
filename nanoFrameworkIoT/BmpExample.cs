@@ -54,15 +54,15 @@ namespace Iot.Device.Samples
 
                     // read values
                     i2CBmp280.TryReadTemperature(out var tempValue);
-                    Console.WriteLine($"Temperature: {tempValue.DegreesCelsius}\u00B0C");
+                    Console.WriteLine($"Temperature: {tempValue.DegreesCelsius} \u00B0C");
                     i2CBmp280.TryReadPressure(out var preValue);
-                    Console.WriteLine($"Pressure: {preValue.Hectopascals}hPa");
+                    Console.WriteLine($"Pressure: {preValue.Hectopascals} hPa");
 
                     // Note that if you already have the pressure value and the temperature, you could also calculate altitude by using
                     // double altValue = WeatherHelper.CalculateAltitude(preValue, defaultSeaLevelPressure, tempValue) which would be more performant.
-                    // i2CBmp280.TryReadAltitude(out var altValue);
+                     i2CBmp280.TryReadAltitude(out var altValue);
 
-                    // Console.WriteLine($"Calculated Altitude: {altValue}m");
+                    Console.WriteLine($"Calculated Altitude: {altValue} m");
                     Thread.Sleep(1000);
 
                     // change sampling rate
@@ -79,22 +79,22 @@ namespace Iot.Device.Samples
 
                     // read values
                     i2CBmp280.TryReadTemperature(out tempValue);
-                    Console.WriteLine($"Temperature: {tempValue.DegreesCelsius}\u00B0C");
+                    Console.WriteLine($"Temperature: {tempValue.DegreesCelsius} \u00B0C");
                     i2CBmp280.TryReadPressure(out preValue);
-                    Console.WriteLine($"Pressure: {preValue.Hectopascals}hPa");
+                    Console.WriteLine($"Pressure: {preValue.Hectopascals} hPa");
 
                     // This time use altitude calculation
-                    // altValue = WeatherHelper.CalculateAltitude(preValue, defaultSeaLevelPressure, tempValue);
+                    altValue = WeatherHelper.CalculateAltitude(preValue, defaultSeaLevelPressure, tempValue);
 
-                    // Console.WriteLine($"Calculated Altitude: {altValue}m");
+                    Console.WriteLine($"Calculated Altitude: {altValue} m");
 
                     // Calculate the barometric (corrected) pressure for the local position.
                     // Change the stationHeight value above to get a correct reading, but do not be tempted to insert
                     // the value obtained from the formula above. Since that estimates the altitude based on pressure,
                     // using that altitude to correct the pressure won't work.
-                    //var correctedPressure = WeatherHelper.CalculateBarometricPressure(preValue, tempValue, stationHeight);
+                    var correctedPressure = WeatherHelper.CalculateBarometricPressure(preValue, tempValue, stationHeight);
 
-                    //Console.WriteLine($"Pressure corrected for altitude {stationHeight}m (with average humidity): {correctedPressure.Hectopascals} hPa");
+                    Console.WriteLine($"Pressure corrected for altitude {stationHeight.Meters} m (with average humidity): {correctedPressure.Hectopascals} hPa");
 
                     Thread.Sleep(5000);
                 }

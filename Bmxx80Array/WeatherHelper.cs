@@ -33,8 +33,8 @@ namespace Iot.Device.Common
         {
             double tf = airTemperature.DegreesFahrenheit;
             double rh = relativeHumidity.Percent;
-            double tf2 = Math.Pow(tf, 2);
-            double rh2 = Math.Pow(rh, 2);
+            double tf2 = Math.Pow((float)tf, (float)2);
+            double rh2 = Math.Pow((float)rh, (float)2);
 
             double steadman = 0.5 * (tf + 61 + ((tf - 68) * 1.2) + (rh * 0.094));
 
@@ -55,7 +55,7 @@ namespace Iot.Device.Common
 
             if (rh < 13 && tf >= 80 && tf <= 112)
             {
-                rothfuszRegression += ((13 - rh) / 4) * Math.Sqrt((17 - Math.Abs(tf - 95)) / 17);
+                rothfuszRegression += ((13 - rh) / 4) * Math.Sqrt((float)((17 - Math.Abs(tf - 95)) / 17));
             }
             else if (rh > 85 && tf >= 80 && tf <= 87)
             {
@@ -77,8 +77,8 @@ namespace Iot.Device.Common
         public static Pressure CalculateSaturatedVaporPressureOverWater(Temperature airTemperature)
         {
             double tk = airTemperature.Kelvins;
-            double e_w = Math.Exp((-6094.4642 / tk) + 21.1249952 - (2.7245552E-2 * tk) + (1.6853396E-5 * tk * tk) +
-                                   (2.4575506 * Math.Log(tk)));
+            double e_w = Math.Exp((float)((-6094.4642 / tk) + 21.1249952 - (2.7245552E-2 * tk) + (1.6853396E-5 * tk * tk) +
+                                   (2.4575506 * Math.Log(tk))));
             return Pressure.FromPascals(e_w);
         }
 
@@ -94,8 +94,8 @@ namespace Iot.Device.Common
         public static Pressure CalculateSaturatedVaporPressureOverIce(Temperature airTemperature)
         {
             double tk = airTemperature.Kelvins;
-            double e_i = Math.Exp((-5504.4088 / tk) - 3.574628 - (1.7337458E-2 * tk) + (6.5204209E-6 * tk * tk) +
-                                  (6.1295027 * Math.Log(tk)));
+            double e_i = Math.Exp((float)((-5504.4088 / tk) - 3.574628 - (1.7337458E-2 * tk) + (6.5204209E-6 * tk * tk) +
+                                  (6.1295027 * Math.Log(tk))));
             return Pressure.FromPascals(e_i * 1.0041); // The table values are corrected by this
         }
 
@@ -125,7 +125,7 @@ namespace Iot.Device.Common
             double a = 6.1121; // hPa
             double c = 257.14; // °C
             double b = 18.678;
-            double dewPoint = (c * Math.Log(pa / a)) / (b - Math.Log(pa / a));
+            double dewPoint = (c * Math.Log((float)(pa / a)) / (b - Math.Log(pa / a)));
             return Temperature.FromDegreesCelsius(dewPoint);
         }
 
@@ -158,7 +158,7 @@ namespace Iot.Device.Common
         /// <returns>The altitude in meters</returns>
         public static double CalculateAltitude(Pressure pressure, Pressure seaLevelPressure, Temperature airTemperature)
         {
-            return ((Math.Pow(seaLevelPressure.Pascals / pressure.Pascals, 1.0 / 5.255) - 1) * airTemperature.Kelvins) / 0.0065;
+            return ((Math.Pow((float)(seaLevelPressure.Pascals / pressure.Pascals), (float)(1.0 / 5.255) - 1) * airTemperature.Kelvins) / 0.0065);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Iot.Device.Common
         /// <remarks><see cref="CalculatePressure"/> solved for sea level pressure</remarks>
         public static Pressure CalculateSeaLevelPressure(Pressure pressure, double altitude, Temperature airTemperature)
         {
-            return Pressure.FromPascals(Math.Pow((((0.0065 * altitude) / airTemperature.Kelvins) + 1), 5.255) * pressure.Pascals);
+            return Pressure.FromPascals(Math.Pow((float)(((0.0065 * altitude) / airTemperature.Kelvins) + 1), (float)5.255) * pressure.Pascals);
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Iot.Device.Common
         /// <returns>The estimated absolute pressure at the given altitude</returns>
         public static Pressure CalculatePressure(Pressure seaLevelPressure, double altitude, Temperature airTemperature)
         {
-            return Pressure.FromPascals(seaLevelPressure.Pascals / Math.Pow((((0.0065 * altitude) / airTemperature.Kelvins) + 1), 5.255));
+            return Pressure.FromPascals(seaLevelPressure.Pascals / Math.Pow((float)(((0.0065 * altitude) / airTemperature.Kelvins) + 1), (float)5.255));
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Iot.Device.Common
         /// <remarks><see cref="CalculatePressure"/> solved for temperature</remarks>
         public static Temperature CalculateTemperature(Pressure pressure, Pressure seaLevelPressure, double altitude)
         {
-            return Temperature.FromKelvins((0.0065 * altitude) / (Math.Pow(seaLevelPressure.Pascals / pressure.Pascals, 1 / 5.255) - 1));
+            return Temperature.FromKelvins((0.0065 * altitude) / (Math.Pow((float)(seaLevelPressure.Pascals / pressure.Pascals), (float)(1 / 5.255)) - 1));
         }
 
         /// <summary>
@@ -255,11 +255,11 @@ namespace Iot.Device.Common
             double vaporPressure;
             if (measuredTemperature.DegreesCelsius >= 9.1)
             {
-                vaporPressure = 18.2194 * (1.0463 - Math.Exp((-0.0666) * measuredTemperature.DegreesCelsius));
+                vaporPressure = 18.2194 * (1.0463 - Math.Exp((float)((-0.0666) * measuredTemperature.DegreesCelsius)));
             }
             else
             {
-                vaporPressure = 5.6402 * (-0.0916 + Math.Exp((-0.06) * measuredTemperature.DegreesCelsius));
+                vaporPressure = 5.6402 * (-0.0916 + Math.Exp((float)((-0.06) * measuredTemperature.DegreesCelsius)));
             }
 
             return CalculateBarometricPressure(measuredPressure, measuredTemperature, Pressure.FromHectopascals(vaporPressure),
@@ -289,7 +289,7 @@ namespace Iot.Device.Common
         {
             double x = (9.80665 / (287.05 * ((measuredTemperature.Kelvins) + 0.12 * vaporPressure.Hectopascals +
                                              (0.0065 * measurementAltitude.Meters) / 2))) * measurementAltitude.Meters;
-            double barometricPressure = measuredPressure.Hectopascals * Math.Exp(x);
+            double barometricPressure = measuredPressure.Hectopascals * Math.Exp((float)x);
             return Pressure.FromHectopascals(barometricPressure);
         }
 

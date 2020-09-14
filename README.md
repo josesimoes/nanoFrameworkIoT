@@ -54,8 +54,12 @@ Notes for Bmxx80:
 
 # ToDo
 
-[] Add the various Convert. missing in nanoFramework
-[] Work on migratin of Windows.Devices to System.Device, see [issue](https://github.com/nanoframework/Home/issues/620)
-[] Open issue on UnitsNet for autogeration of simple units nugets for nanoFramework based on the core units
-[] Find a way o automatically replace Linq
-[] Math.XXX [issues](https://github.com/nanoframework/Home/issues/642)
+- [ ] Add the various Convert. missing in nanoFramework
+- [ ] Work on migratin of Windows.Devices to System.Device, see [issue](https://github.com/nanoframework/Home/issues/620)
+- [X] Open issue on UnitsNet for autogeration of simple units nugets for nanoFramework based on the core units. See https://github.com/angularsen/UnitsNet/issues/836
+- [ ] Find a way o automatically replace Linq or change the policy and replace the few tens of lines in the current bindings
+- [ ] Math.XXX [issues](https://github.com/nanoframework/Home/issues/642), a solution will be found.
+- [ ] Add more devices to check performance and migration path, discover new missing elements from System that may be used by other bindings
+- [ ] Create specific policies to make a binding nanoFramework compatible
+- [ ] Work on automated code to transform original code and create specific nanoFramework compatible project + work on CI/CD
+- [ ] Performance check on sensitive sensors like DHT
