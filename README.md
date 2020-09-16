@@ -1,4 +1,4 @@
-# nanoFrameworj <-> .NET IoT integration
+# nanoFramework <-> .NET IoT integration
 
 This repo is a prototype repository to explore how to better integrate [nanoFramework](https://github.com/nanoframework/Home) and [.NET IoT](https://github.com/dotnet/iot).
 
@@ -17,7 +17,7 @@ In the repo:
 - GpioController under System.Device.Gpio allowing compatibility with System.Device.Gpio from .NET IoT
 - TestSpanRef a bug when using ref this
 
-# Path to automate automatic creation of nanFramork compatible bindings from .NET IoT code
+# Path to automate automatic creation of nanFramework compatible bindings from .NET IoT code
 
 Let's start with the limitations:
 - Linq is not supported, any binding using Linq won't be able to be generated
