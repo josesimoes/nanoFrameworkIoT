@@ -4,7 +4,8 @@
 
 using System;
 using System.Diagnostics;
-using System.Device.Gpio;
+//using System.Device.Gpio;
+using Windows.Devices.Gpio;
 using System.Threading;
 using System.Device;
 using UnitsNet;
@@ -14,11 +15,13 @@ namespace Iot.Device.Hcsr04
     /// <summary>
     /// HC-SR04 - Ultrasonic Ranging Module
     /// </summary>
-    public class Hcsr04 : IDisposable
+    public class Hcsr04GpioCore : IDisposable
     {
         private readonly int _echo;
         private readonly int _trigger;
         private GpioController _controller;
+        private readonly GpioPin _echoPin;
+        private readonly GpioPin _triggerPin;
         private bool _shouldDispose;
         private Stopwatch _timer = new Stopwatch();
 
@@ -36,22 +39,28 @@ namespace Iot.Device.Hcsr04
         /// <param name="triggerPin">Trigger pulse input.</param>
         /// <param name="echoPin">Trigger pulse output.</param>
         /// <param name="shouldDispose">True to dispose the Gpio Controller</param>
-        public Hcsr04(GpioController gpioController, int triggerPin, int echoPin, bool shouldDispose = true)
+        public Hcsr04GpioCore(GpioController gpioController, int triggerPin, int echoPin, bool shouldDispose = true)
         {
             _echo = echoPin;
             _trigger = triggerPin;
             _controller = gpioController;
             _shouldDispose = shouldDispose;
 
-            _controller.OpenPin(_echo, PinMode.Input);
-            _controller.OpenPin(_trigger, PinMode.Output);
+            //_controller.OpenPin(_echo, PinMode.Input);
+            _echoPin = _controller.OpenPin(_echo);
+            _echoPin.SetDriveMode(GpioPinDriveMode.Input);
+            //_controller.OpenPin(_trigger, PinMode.Output);
+            _triggerPin = _controller.OpenPin(_trigger);
+            _triggerPin.SetDriveMode(GpioPinDriveMode.Output);
 
-            _controller.Write(_trigger, PinValue.Low);
+            //_controller.Write(_trigger, PinValue.Low);
+            _triggerPin.Write(GpioPinValue.Low);
 
             // Call Read once to make sure method is JITted
             // Too long JITting is causing that initial echo pulse is frequently missed on the first run
             // which would cause unnecessary retry
-            _controller.Read(_echo);
+            // _controller.Read(_echo);
+            _echoPin.Read();
         }
 
         /// <summary>
@@ -60,8 +69,8 @@ namespace Iot.Device.Hcsr04
         /// <param name="triggerPin">Trigger pulse input.</param>
         /// <param name="echoPin">Trigger pulse output.</param>
         /// <param name="pinNumberingScheme">Pin Numbering Scheme</param>
-        public Hcsr04(int triggerPin, int echoPin, PinNumberingScheme pinNumberingScheme = PinNumberingScheme.Logical)
-            : this(new GpioController(pinNumberingScheme), triggerPin, echoPin)
+        public Hcsr04GpioCore(int triggerPin, int echoPin, System.Device.Gpio.PinNumberingScheme pinNumberingScheme = System.Device.Gpio.PinNumberingScheme.Logical)
+            : this(GpioController.GetDefault(), triggerPin, echoPin)
         {
         }
 
@@ -105,13 +114,16 @@ namespace Iot.Device.Hcsr04
             _lastMeasurment = DateTime.UtcNow.Ticks;
 
             // Trigger input for 10uS to start ranging
-            _controller.Write(_trigger, PinValue.High);
+            // _controller.Write(_trigger, PinValue.High);
+            _triggerPin.Write(GpioPinValue.High);
             //DelayHelper.DelayMicroseconds(10, true);
             Thread.Sleep(TimeSpan.FromTicks((long)(0.01 * TimeSpan.TicksPerMillisecond)));
-            _controller.Write(_trigger, PinValue.Low);
+            //_controller.Write(_trigger, PinValue.Low);
+            _triggerPin.Write(GpioPinValue.Low);
 
             // Wait until the echo pin is HIGH (that marks the beginning of the pulse length we want to measure)
-            while (_controller.Read(_echo) == PinValue.Low)
+            //while (_controller.Read(_echo) == PinValue.Low)
+            while (_echoPin.Read() == GpioPinValue.Low)
             {
                 if (DateTime.UtcNow.Ticks - hangTicks > 0)
                 {
@@ -123,7 +135,8 @@ namespace Iot.Device.Hcsr04
             _timer.Start();
 
             // Wait until the pin is LOW again, (that marks the end of the pulse we are measuring)
-            while (_controller.Read(_echo) == PinValue.High)
+            //while (_controller.Read(_echo) == PinValue.High)
+            while (_echoPin.Read() == GpioPinValue.High)
             {
                 if (DateTime.UtcNow.Ticks - hangTicks > 0)
                 {
@@ -153,7 +166,7 @@ namespace Iot.Device.Hcsr04
         {
             if (_shouldDispose)
             {
-                _controller?.Dispose();
+                //_controller?.Dispose();
                 _controller = null;
             }
         }

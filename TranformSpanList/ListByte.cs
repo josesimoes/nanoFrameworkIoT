@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
 namespace System.Collections.Generic
 {
-    public class List<T> : IEnumerable<T>
+    public class ListByte : IEnumerable
     {
 
         private ArrayList _list;
@@ -11,7 +11,7 @@ namespace System.Collections.Generic
         // Summary:
         //     Initializes a new instance of the System.Collections.Generic.List`1 class that
         //     is empty and has the default initial capacity.
-        public List()
+        public ListByte()
         {
             _list = new ArrayList();
         }
@@ -28,7 +28,7 @@ namespace System.Collections.Generic
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     collection is null.
-        public List(IEnumerable<T> collection)
+        public ListByte(IEnumerable collection)
         {
             _list = new ArrayList();
             foreach (var elem in collection)
@@ -48,7 +48,7 @@ namespace System.Collections.Generic
         // Exceptions:
         //   T:System.ArgumentOutOfRangeException:
         //     capacity is less than 0.
-        public List(int capacity)
+        public ListByte(int capacity)
         {
             _list = new ArrayList();
             _list.Capacity = capacity;
@@ -68,11 +68,11 @@ namespace System.Collections.Generic
         // Exceptions:
         //   T:System.ArgumentOutOfRangeException:
         //     index is less than 0. -or- index is equal to or greater than System.Collections.Generic.List`1.Count.
-        public T this[int index]
+        public byte this[int index]
         {
             get
             {
-                return (T)_list[index];
+                return (byte)_list[index];
             }
 
             set
@@ -115,7 +115,7 @@ namespace System.Collections.Generic
         //   item:
         //     The object to be added to the end of the System.Collections.Generic.List`1. The
         //     value can be null for reference types.
-        public void Add(T item)
+        public void Add(byte item)
         {
             _list.Add(item);
         }
@@ -128,12 +128,12 @@ namespace System.Collections.Generic
         //   collection:
         //     The collection whose elements should be added to the end of the System.Collections.Generic.List`1.
         //     The collection itself cannot be null, but it can contain elements that are null,
-        //     if type T is a reference type.
+        //     if type byte is a reference type.
         //
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     collection is null.
-        public void AddRange(IEnumerable<T> collection)
+        public void AddRange(IEnumerable collection)
         {
             foreach (var elem in collection)
             {
@@ -149,7 +149,7 @@ namespace System.Collections.Generic
         //     A System.Collections.Generic.List`1.Enumerator for the System.Collections.Generic.List`1.
         public Enumerator GetEnumerator() => new Enumerator(this);
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
+        //IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();        
 
@@ -159,12 +159,12 @@ namespace System.Collections.Generic
         //
         // Type parameters:
         //   T:
-        public struct Enumerator : IEnumerator<T>, IDisposable
+        public struct Enumerator : IEnumerator, IDisposable
         {
             private int _index;
-            private List<T> _collection;
+            private ListByte _collection;
 
-            public Enumerator(List<T> collection)
+            public Enumerator(ListByte collection)
             {
                 _index = 0;
                 _collection = collection;
@@ -177,7 +177,7 @@ namespace System.Collections.Generic
             // Returns:
             //     The element in the System.Collections.Generic.List`1 at the current position
             //     of the enumerator.
-            public T Current => _collection[_index];
+            public byte Current => _collection[_index];
 
             object IEnumerator.Current => Current;
 
@@ -227,11 +227,11 @@ namespace System.Collections.Generic
         //
         // Returns:
         //     true if item is found in the System.Collections.Generic.List`1; otherwise, false.
-        public bool Contains(T item)
+        public bool Contains(byte item)
         {
             foreach (var elem in _list)
             {
-                if (((T)elem).GetHashCode() == item.GetHashCode())
+                if (((byte)elem).GetHashCode() == item.GetHashCode())
                 {
                     return true;
                 }
@@ -264,7 +264,7 @@ namespace System.Collections.Generic
         //   T:System.ArgumentException:
         //     The number of elements in the source System.Collections.Generic.List`1 is greater
         //     than the available space from arrayIndex to the end of the destination array.
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo(byte[] array, int arrayIndex)
         {
             CopyTo(0, array, arrayIndex, _list.Count);
         }
@@ -287,7 +287,7 @@ namespace System.Collections.Generic
         //   T:System.ArgumentException:
         //     The number of elements in the source System.Collections.Generic.List`1 is greater
         //     than the number of elements that the destination array can contain.
-        public void CopyTo(T[] array)
+        public void CopyTo(byte[] array)
         {
             CopyTo(0, array, 0, _list.Count);
         }
@@ -326,11 +326,11 @@ namespace System.Collections.Generic
         //     of the source System.Collections.Generic.List`1. -or- The number of elements
         //     from index to the end of the source System.Collections.Generic.List`1 is greater
         //     than the available space from arrayIndex to the end of the destination array.
-        public void CopyTo(int index, T[] array, int arrayIndex, int count)
+        public void CopyTo(int index, byte[] array, int arrayIndex, int count)
         {
             for (int i = index; i < count; i++)
             {
-                array[arrayIndex + i] = (T)_list[i];
+                array[arrayIndex + i] = (byte)_list[i];
             }
         }
 
@@ -354,12 +354,12 @@ namespace System.Collections.Generic
         //
         //   T:System.ArgumentException:
         //     index and count do not denote a valid range of elements in the System.Collections.Generic.List`1.
-        public List<T> GetRange(int index, int count)
+        public ListByte GetRange(int index, int count)
         {
-            var list = new List<T>();
+            var list = new ListByte();
             for (int i = index; i < count; i++)
             {
-                list.Add((T)_list[i]);
+                list.Add((byte)_list[i]);
             }
 
             return list;
@@ -391,7 +391,7 @@ namespace System.Collections.Generic
         //     index is outside the range of valid indexes for the System.Collections.Generic.List`1.
         //     -or- count is less than 0. -or- index and count do not specify a valid section
         //     in the System.Collections.Generic.List`1.
-        public int IndexOf(T item, int index, int count) => _list.IndexOf(item, index, count);
+        public int IndexOf(byte item, int index, int count) => _list.IndexOf(item, index, count);
 
         //
         // Summary:
@@ -415,7 +415,7 @@ namespace System.Collections.Generic
         // Exceptions:
         //   T:System.ArgumentOutOfRangeException:
         //     index is outside the range of valid indexes for the System.Collections.Generic.List`1.
-        public int IndexOf(T item, int index) => IndexOf(item, index, _list.Count - index);
+        public int IndexOf(byte item, int index) => IndexOf(item, index, _list.Count - index);
 
         //
         // Summary:
@@ -430,7 +430,7 @@ namespace System.Collections.Generic
         // Returns:
         //     The zero-based index of the first occurrence of item within the entire System.Collections.Generic.List`1,
         //     if found; otherwise, -1.
-        public int IndexOf(T item) => IndexOf(item, 0, _list.Count);
+        public int IndexOf(byte item) => IndexOf(item, 0, _list.Count);
 
         //
         // Summary:
@@ -447,7 +447,7 @@ namespace System.Collections.Generic
         // Exceptions:
         //   T:System.ArgumentOutOfRangeException:
         //     index is less than 0. -or- index is greater than System.Collections.Generic.List`1.Count.
-        public void Insert(int index, T item) => _list.Insert(index, item);
+        public void Insert(int index, byte item) => _list.Insert(index, item);
 
         //
         // Summary:
@@ -461,7 +461,7 @@ namespace System.Collections.Generic
         //   collection:
         //     The collection whose elements should be inserted into the System.Collections.Generic.List`1.
         //     The collection itself cannot be null, but it can contain elements that are null,
-        //     if type T is a reference type.
+        //     if type byte is a reference type.
         //
         // Exceptions:
         //   T:System.ArgumentNullException:
@@ -469,7 +469,7 @@ namespace System.Collections.Generic
         //
         //   T:System.ArgumentOutOfRangeException:
         //     index is less than 0. -or- index is greater than System.Collections.Generic.List`1.Count.
-        public void InsertRange(int index, IEnumerable<T> collection)
+        public void InsertRange(int index, IEnumerable collection)
         {
             foreach (var elem in collection)
             {
@@ -490,7 +490,7 @@ namespace System.Collections.Generic
         // Returns:
         //     The zero-based index of the last occurrence of item within the entire the System.Collections.Generic.List`1,
         //     if found; otherwise, -1.
-        public int LastIndexOf(T item) => LastIndexOf(item, _list.Count - 1, _list.Count);
+        public int LastIndexOf(byte item) => LastIndexOf(item, _list.Count - 1, _list.Count);
 
         //
         // Summary:
@@ -514,7 +514,7 @@ namespace System.Collections.Generic
         // Exceptions:
         //   T:System.ArgumentOutOfRangeException:
         //     index is outside the range of valid indexes for the System.Collections.Generic.List`1.
-        public int LastIndexOf(T item, int index) => LastIndexOf(item, index, _list.Count - index);
+        public int LastIndexOf(byte item, int index) => LastIndexOf(item, index, _list.Count - index);
 
         //
         // Summary:
@@ -543,11 +543,11 @@ namespace System.Collections.Generic
         //     index is outside the range of valid indexes for the System.Collections.Generic.List`1.
         //     -or- count is less than 0. -or- index and count do not specify a valid section
         //     in the System.Collections.Generic.List`1.
-        public int LastIndexOf(T item, int index, int count)
+        public int LastIndexOf(byte item, int index, int count)
         {
             for (int i = index; i >= _list.Count - count - index; i--)
             {
-                if (((T)_list[i]).GetHashCode() == item.GetHashCode())
+                if (((byte)_list[i]).GetHashCode() == item.GetHashCode())
                 {
                     return i;
                 }
@@ -567,7 +567,7 @@ namespace System.Collections.Generic
         // Returns:
         //     true if item is successfully removed; otherwise, false. This method also returns
         //     false if item was not found in the System.Collections.Generic.List`1.
-        public bool Remove(T item)
+        public bool Remove(byte item)
         {
             if (_list.Contains(item))
             {
@@ -622,12 +622,12 @@ namespace System.Collections.Generic
         //
         // Returns:
         //     An array containing copies of the elements of the System.Collections.Generic.List`1.
-        public T[] ToArray()
+        public byte[] ToArray()
         {
-            T[] array = new T[_list.Count];
+            byte[] array = new byte[_list.Count];
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = (T)_list[i];
+                array[i] = (byte)_list[i];
             }
 
             return array;

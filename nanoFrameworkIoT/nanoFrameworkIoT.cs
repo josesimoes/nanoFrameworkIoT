@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System;
 using Iot.Device.Samples;
 using Windows.Devices.I2c;
+using Iot.Device.DHTxx;
+using UnitsNet;
 
 namespace NanoFrameworkIoT
 {
@@ -19,14 +21,17 @@ namespace NanoFrameworkIoT
             try
             {
                 // To use HCSR04:
-                // Hsc()
+                // Hsc();
+                // HscGpioCore();
                 // For the BMP280:
-                BmpExample.StartBmp(null);
+                // BmpExample.StartBmp(null);
                 // For various low level I2C tests:
                 // CheckDeviceIdWindowsDevicesI2c();
                 // CheckDeviceIdSystemI2c();
                 // Test the SpanByte:
                 // TestSpanByte();
+                // DTH12
+                Dth12Test();
             }
             catch (Exception ex)
             {
@@ -81,7 +86,7 @@ namespace NanoFrameworkIoT
             var toWrite = new byte[1];
             var toRead = new byte[1];
             toWrite[0] = 0xD0;
-            var ret =device.WriteReadPartial(toWrite, toRead);
+            var ret = device.WriteReadPartial(toWrite, toRead);
 
             //device.Read(toWrite);
             Debug.WriteLine($"Ret: {ret.Status}, value :{toRead[0]}");
@@ -95,7 +100,25 @@ namespace NanoFrameworkIoT
             {
                 try
                 {
-                    Debug.WriteLine($"Distance: {sonar.Distance} cm");
+                    Debug.WriteLine($"Distance: {sonar.Distance.Centimeters} cm");
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine($"Exception");
+                }
+                Thread.Sleep(1000);
+            }
+        }
+
+        private static void HscGpioCore()
+        {
+            Hcsr04GpioCore sonar = new Hcsr04GpioCore(16, 17);
+
+            while (true)
+            {
+                try
+                {
+                    Debug.WriteLine($"Distance: {sonar.Distance.Centimeters} cm");
                 }
                 catch (Exception)
                 {
@@ -117,5 +140,29 @@ namespace NanoFrameworkIoT
                 led.Toggle();
             }
         }
+
+        private static void Dth12Test()
+        {
+            Dht12 dht = new Dht12(19);
+            Temperature temp;
+            Ratio hum;
+
+            while (true)
+            {
+                hum = dht.Humidity;
+                temp = dht.Temperature;
+                if (dht.IsLastReadSuccessful)
+                {
+                    Debug.WriteLine($"Hum: {hum.Percent} %, Temp: {temp.DegreesCelsius} °C");
+                }
+                else
+                {
+                    Debug.WriteLine("error reading dht");
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+
     }
 }

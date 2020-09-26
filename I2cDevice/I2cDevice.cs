@@ -67,6 +67,31 @@ namespace System.Device.I2c
         }
 
         /// <summary>
+        /// Reads data from the I2C device.
+        /// </summary>
+        /// <param name="buffer">
+        /// The buffer to read the data from the I2C device.
+        /// The length of the buffer determines how much data to read from the I2C device.
+        /// </param>
+        public void Read(byte[] buffer)
+        {
+            _device.Read(buffer);
+        }
+
+
+        /// <summary>
+        /// Writes data to the I2C device.
+        /// </summary>
+        /// <param name="buffer">
+        /// The buffer that contains the data to be written to the I2C device.
+        /// The data should not include the I2C device address.
+        /// </param>
+        public void Write(byte[] buffer)
+        {
+            _device.Write(buffer);
+        }
+
+        /// <summary>
         /// Performs an atomic operation to write data to and then read data from the I2C bus on which the device is connected,
         /// and sends a restart condition between the write and read operations.
         /// </summary>

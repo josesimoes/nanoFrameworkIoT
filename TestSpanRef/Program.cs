@@ -9,10 +9,12 @@ namespace TestSpanRef
         {
             try
             {
-                SpanByte span = new byte[2];
-                span[0] = 42;
-                span[1] = 24;
-                Debug.WriteLine($"{span.Length}, {span[0]}, {span[1]}");
+                decimal dec = 23;
+                Debug.WriteLine($"{dec}");
+                //SpanByte span = new byte[2];
+                //span[0] = 42;
+                //span[1] = 24;
+                //Debug.WriteLine($"{span.Length}, {span[0]}, {span[1]}");
             }
             catch (Exception ex)
             {
@@ -41,4 +43,5 @@ namespace TestSpanRef
             return new SpanByte(array);
         }
     }
+
 }

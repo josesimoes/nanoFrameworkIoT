@@ -4,7 +4,7 @@ using UnitsNet.Units;
 namespace UnitsNet
 {
     public struct Ratio
-    {
+    {                
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>

@@ -8,18 +8,23 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{11A8DD76-328B-46DF-9F39-F559912D0360};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>4ccbbdd6-8a70-4d72-9662-15f26dec8916</ProjectGuid>
+    <ProjectGuid>98a0504f-e738-4cea-8af7-fc3744ed3ebd</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>List</RootNamespace>
-    <AssemblyName>List</AssemblyName>
+    <RootNamespace>Dhtxx</RootNamespace>
+    <AssemblyName>Dhtxx</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="Interface.cs" />
-    <Compile Include="List.cs" />
+    <Compile Include="CommunicationProtocol.cs" />
+    <Compile Include="Devices\Dht10.cs" />
+    <Compile Include="Devices\Dht11.cs" />
+    <Compile Include="Devices\Dht12.cs" />
+    <Compile Include="Devices\Dht21.cs" />
+    <Compile Include="Devices\Dht22.cs" />
+    <Compile Include="DhtBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -28,14 +33,21 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="nanoFramework.System.Collections, Version=1.1.0.2, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.System.Collections.1.1.0\lib\nanoFramework.System.Collections.dll</HintPath>
+    <Reference Include="System.Math, Version=1.3.0.3, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.System.Math.1.3.0\lib\System.Math.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GpioController\GpioController.nfproj" />
+    <ProjectReference Include="..\I2cDevice\I2cDevice.nfproj" />
+    <ProjectReference Include="..\Span\Span.nfproj" />
+    <ProjectReference Include="..\Stopwatch\Stopwatch.nfproj" />
+    <ProjectReference Include="..\UnitsNet\UnitsNet.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

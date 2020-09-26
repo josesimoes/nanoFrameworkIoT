@@ -19,6 +19,7 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="Hscr04GpioCore.cs" />
     <Compile Include="nanoFrameworkIoT.cs" />
     <Compile Include="BmpExample.cs" />
     <Compile Include="Hcsr04.cs" />
@@ -56,6 +57,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Bmxx80\Bmxx80.nfproj" />
     <ProjectReference Include="..\Bmxx80\Bmxx80Array.nfproj" />
+    <ProjectReference Include="..\Dhtxx\Dhtxx.nfproj" />
     <ProjectReference Include="..\GpioController\GpioController.nfproj" />
     <ProjectReference Include="..\I2cDevice\I2cDevice.nfproj" />
     <ProjectReference Include="..\Span\Span.nfproj" />
