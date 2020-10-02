@@ -22,7 +22,7 @@ namespace NanoFrameworkIoT
             {
                 // To use HCSR04:
                 // Hsc();
-                // HscGpioCore();
+                 HscGpioCore();
                 // For the BMP280:
                 // BmpExample.StartBmp(null);
                 // For various low level I2C tests:
@@ -31,7 +31,7 @@ namespace NanoFrameworkIoT
                 // Test the SpanByte:
                 // TestSpanByte();
                 // DTH12
-                Dth12Test();
+                // Dth12Test();
             }
             catch (Exception ex)
             {
@@ -113,12 +113,25 @@ namespace NanoFrameworkIoT
         private static void HscGpioCore()
         {
             Hcsr04GpioCore sonar = new Hcsr04GpioCore(16, 17);
+            GpioPin led = GpioController.GetDefault().OpenPin(2);
+            led.SetDriveMode(GpioPinDriveMode.Output);
+            led.Write(GpioPinValue.High);
+            double dist;
 
             while (true)
             {
                 try
                 {
-                    Debug.WriteLine($"Distance: {sonar.Distance.Centimeters} cm");
+                    dist = sonar.Distance.Centimeters;
+                    Debug.WriteLine($"Distance: {dist} cm");
+                    if(dist < 5)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            Thread.Sleep(500);
+                            led.Toggle();
+                        }
+                    }
                 }
                 catch (Exception)
                 {
@@ -146,6 +159,9 @@ namespace NanoFrameworkIoT
             Dht12 dht = new Dht12(19);
             Temperature temp;
             Ratio hum;
+            GpioPin led = GpioController.GetDefault().OpenPin(2);
+            led.SetDriveMode(GpioPinDriveMode.Output);
+            led.Write(GpioPinValue.High);
 
             while (true)
             {
@@ -154,10 +170,17 @@ namespace NanoFrameworkIoT
                 if (dht.IsLastReadSuccessful)
                 {
                     Debug.WriteLine($"Hum: {hum.Percent} %, Temp: {temp.DegreesCelsius} °C");
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Thread.Sleep(500);
+                        led.Toggle();
+                    }
                 }
                 else
                 {
                     Debug.WriteLine("error reading dht");
+                    led.Write(GpioPinValue.High);
                 }
 
                 Thread.Sleep(1000);

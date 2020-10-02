@@ -9,8 +9,6 @@ Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Stopwatch", "Stopwatch\Stop
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "GpioController", "GpioController\GpioController.nfproj", "{4A956AA6-1E2B-4D1C-BEF0-67C0FF074C9F}"
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Span", "Span\Span.nfproj", "{DB8DEE4D-EB97-4A33-BA94-3636282BAA8D}"
-EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "I2cDevice", "I2cDevice\I2cDevice.nfproj", "{4146A375-C74F-424E-899A-1924AD7C87AB}"
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "UnitsNet", "UnitsNet\UnitsNet.nfproj", "{95A66373-B01A-4C19-8E0D-C37BA27C1FD9}"
@@ -30,6 +28,10 @@ EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Bmxx80", "Bmxx80\Bmxx80.nfproj", "{4EA4F6A2-F8CF-4005-BDF6-D4EECF6FDE9C}"
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Dhtxx", "Dhtxx\Dhtxx.nfproj", "{98A0504F-E738-4CEA-8AF7-FC3744ED3EBD}"
+EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "SpiDevice", "SpiDevice\SpiDevice.nfproj", "{0C40B18F-88C9-4F40-8843-8A135AEEE306}"
+EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "PwmChannels", "PwmChannels\PwmChannels.nfproj", "{B43B046C-BD32-4AA2-8350-C652485CDA73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,12 +57,6 @@ Global
 		{4A956AA6-1E2B-4D1C-BEF0-67C0FF074C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A956AA6-1E2B-4D1C-BEF0-67C0FF074C9F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A956AA6-1E2B-4D1C-BEF0-67C0FF074C9F}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{DB8DEE4D-EB97-4A33-BA94-3636282BAA8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB8DEE4D-EB97-4A33-BA94-3636282BAA8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB8DEE4D-EB97-4A33-BA94-3636282BAA8D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{DB8DEE4D-EB97-4A33-BA94-3636282BAA8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB8DEE4D-EB97-4A33-BA94-3636282BAA8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB8DEE4D-EB97-4A33-BA94-3636282BAA8D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{4146A375-C74F-424E-899A-1924AD7C87AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4146A375-C74F-424E-899A-1924AD7C87AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4146A375-C74F-424E-899A-1924AD7C87AB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -121,6 +117,18 @@ Global
 		{98A0504F-E738-4CEA-8AF7-FC3744ED3EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98A0504F-E738-4CEA-8AF7-FC3744ED3EBD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98A0504F-E738-4CEA-8AF7-FC3744ED3EBD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0C40B18F-88C9-4F40-8843-8A135AEEE306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C40B18F-88C9-4F40-8843-8A135AEEE306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C40B18F-88C9-4F40-8843-8A135AEEE306}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0C40B18F-88C9-4F40-8843-8A135AEEE306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C40B18F-88C9-4F40-8843-8A135AEEE306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C40B18F-88C9-4F40-8843-8A135AEEE306}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B43B046C-BD32-4AA2-8350-C652485CDA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B43B046C-BD32-4AA2-8350-C652485CDA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B43B046C-BD32-4AA2-8350-C652485CDA73}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B43B046C-BD32-4AA2-8350-C652485CDA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B43B046C-BD32-4AA2-8350-C652485CDA73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B43B046C-BD32-4AA2-8350-C652485CDA73}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

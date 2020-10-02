@@ -1,17 +1,23 @@
-﻿namespace System
+﻿//
+// Copyright (c) .NET Foundation and Contributors
+// Portions Copyright (c) Microsoft Corporation.  All rights reserved.
+// See LICENSE file in the project root for full license information.
+//
+
+namespace System
 {
     /// <summary>
-    /// Provides a type- and memory-safe representation of a contiguous region of arbitrary
+    /// Provides a type- and memory-safe representation of a contiguous region of arbitrary byte array
     /// </summary>
-    /// <typeparam name="T">The type of items in the System.Span.</typeparam>
-    public ref struct SpanByte
+    [Serializable, CLSCompliant(false)]
+    public readonly ref struct SpanByte
     {
-        private byte[] _array;
+        private readonly byte[] _array;
         private readonly int _start;
         private readonly int _length;
 
         /// <summary>
-        /// Creates a new System.Span`1 object over the entirety of a specified array.
+        /// Creates a new System.SpanByte object over the entirety of a specified array.
         /// </summary>
         /// <param name="array">The array from which to create the System.Span object.</param>
         public SpanByte(byte[] array)
@@ -21,30 +27,8 @@
             _start = 0;
         }
 
-        //
-        // Summary:
-        //     Creates a new System.Span`1 object from a specified number of T elements starting
-        //     at a specified memory address.
-        //
-        // Parameters:
-        //   pointer:
-        //     A pointer to the starting address of a specified number of T elements in memory.
-        //
-        //   length:
-        //     The number of T elements to be included in the System.Span`1.
-        //
-        // Exceptions:
-        //   T:System.ArgumentException:
-        //     T is a reference type or contains pointers and therefore cannot be stored in
-        //     unmanaged memory.
-        //
-        //   T:System.ArgumentOutOfRangeException:
-        //     length is negative.
-        //[CLSCompliant(false)]
-        //public Span(void* pointer, int length);
-
         /// <summary>
-        /// Creates a new System.Span`1 object that includes a specified number of elements
+        /// Creates a new System.SpanByte object that includes a specified number of elements
         /// of an array starting at a specified index.
         /// </summary>
         /// <param name="array">The source array.</param>
@@ -85,10 +69,20 @@
         {
             get
             {
+                if (_start + index > _length)
+                {
+                    throw new ArgumentOutOfRangeException($"Index out of range");
+                }
+
                 return _array[_start + index];
             }
             set
             {
+                if (_start + index > _length)
+                {
+                    throw new ArgumentOutOfRangeException($"Index out of range");
+                }
+
                 _array[_start + index] = value;
             }
         }
@@ -107,7 +101,7 @@
         /// Returns a value that indicates whether the current System.Span is empty.
         /// true if the current span is empty; otherwise, false.
         /// </summary>
-        public bool IsEmpty => Length == 0;
+        public bool IsEmpty => _length == 0;
 
         /// <summary>
         /// Copies the contents of this System.Span into a destination System.Span.
@@ -137,12 +131,12 @@
         /// <exception cref="System.ArgumentOutOfRangeException">start is less than zero or greater than System.Span.Length.</exception>
         public SpanByte Slice(int start)
         {
-            if ((start > _length - _start) || (start < 0))
+            if ((start > _length) || (start < 0))
             {
                 throw new ArgumentOutOfRangeException($"start is less than zero or greater than length");
             }
 
-            return new SpanByte(_array, _start + start, Length - start - _start);
+            return new SpanByte(_array, _start + start, _length - start);
         }
 
         /// <summary>
@@ -154,7 +148,7 @@
         /// <exception cref="System.ArgumentOutOfRangeException">start or start + length is less than zero or greater than System.Span.Length.</exception>
         public SpanByte Slice(int start, int length)
         {
-            if ((start < 0) || (start + length < 0) || (start + length > _length - _start))
+            if ((start < 0) || (length < 0) || (start + length > _length) || (start + _start > _length))
             {
                 throw new ArgumentOutOfRangeException($"start or start + length is less than zero or greater than length");
             }
@@ -168,7 +162,7 @@
         /// <returns> An array containing the data in the current span.</returns>
         public byte[] ToArray()
         {
-            byte[] array = new byte[Length];
+            byte[] array = new byte[_length];
             for (int i = 0; i < Length; i++)
             {
                 array[i] = _array[_start + i];
@@ -177,18 +171,13 @@
             return array;
         }
 
+        /// <summary>
+        /// Implicit conversion of an array to a span of byte
+        /// </summary>
+        /// <param name="array"></param>
         public static implicit operator SpanByte(byte[] array)
         {
             return new SpanByte(array);
         }
-
-        /// <summary>
-        /// Defines an implicit conversion of a System.Span`1 to a System.ReadOnlySpan.
-        /// </summary>
-        /// <param name="span">The object to convert to a System.ReadOnlySpan.</param>
-        //public static implicit operator ReadOnlySpanByte(SpanByte span)
-        //{
-        //    return span;
-        //}
     }
 }

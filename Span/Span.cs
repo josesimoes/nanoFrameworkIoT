@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides a type- and memory-safe representation of a contiguous region of arbitrary
     /// </summary>
-    /// <typeparam name="T">The type of items in the System.Span.</typeparam>
+    [Serializable, CLSCompliant(false)]
     public readonly ref struct Span<T>
     {
         private readonly T[] _array;
@@ -14,34 +14,12 @@
         /// Creates a new System.Span`1 object over the entirety of a specified array.
         /// </summary>
         /// <param name="array">The array from which to create the System.Span object.</param>
-        public Span(T[]? array)
+        public Span(T[] array)
         {
             _array = array;
             _length = array != null ? array.Length : 0;
             _start = 0;
         }
-
-        //
-        // Summary:
-        //     Creates a new System.Span`1 object from a specified number of T elements starting
-        //     at a specified memory address.
-        //
-        // Parameters:
-        //   pointer:
-        //     A pointer to the starting address of a specified number of T elements in memory.
-        //
-        //   length:
-        //     The number of T elements to be included in the System.Span`1.
-        //
-        // Exceptions:
-        //   T:System.ArgumentException:
-        //     T is a reference type or contains pointers and therefore cannot be stored in
-        //     unmanaged memory.
-        //
-        //   T:System.ArgumentOutOfRangeException:
-        //     length is negative.
-        //[CLSCompliant(false)]
-        //public Span(void* pointer, int length);
 
         /// <summary>
         /// Creates a new System.Span`1 object that includes a specified number of elements
@@ -54,7 +32,7 @@
         /// array is null, but start or length is non-zero. -or- start is outside the bounds
         /// of the array. -or- start and length exceeds the number of elements in the array.
         /// </exception>
-        public Span(T[]? array, int start, int length)
+        public Span(T[] array, int start, int length)
         {
             if (array != null)
             {
@@ -86,10 +64,21 @@
         {
             get
             {
+                if (index > _length)
+                {
+                    throw new ArgumentOutOfRangeException($"Index out of range");
+                }
+
                 return _array[_start + index];
             }
+
             set
             {
+                if (index > _length)
+                {
+                    throw new ArgumentOutOfRangeException($"Index out of range");
+                }
+
                 _array[_start + index] = value;
             }
         }
@@ -108,7 +97,7 @@
         /// Returns a value that indicates whether the current System.Span is empty.
         /// true if the current span is empty; otherwise, false.
         /// </summary>
-        public bool IsEmpty => Length == 0;
+        public bool IsEmpty => _length == 0;
 
         /// <summary>
         /// Copies the contents of this System.Span into a destination System.Span.
@@ -119,14 +108,14 @@
         /// </exception>
         public void CopyTo(Span<T> destination)
         {
-            if (destination.Length < _length - _start)
+            if (destination.Length < _length)
             {
                 throw new ArgumentException($"Destination too small");
             }
 
-            for (int i = 0; i < _array.Length; i++)
+            for (int i = 0; i < _length; i++)
             {
-                destination[i] = _array[i];
+                destination[i] = _array[_start + i];
             }
         }
 
@@ -138,12 +127,12 @@
         /// <exception cref="System.ArgumentOutOfRangeException">start is less than zero or greater than System.Span.Length.</exception>
         public Span<T> Slice(int start)
         {
-            if ((start > _length - _start) || (start < 0))
+            if ((start > _length) || (start < 0))
             {
                 throw new ArgumentOutOfRangeException($"start is less than zero or greater than length");
             }
 
-            return new Span<T>(_array, start, Length - start);
+            return new Span<T>(_array, start, _length - start);
         }
 
         /// <summary>
@@ -155,7 +144,7 @@
         /// <exception cref="System.ArgumentOutOfRangeException">start or start + length is less than zero or greater than System.Span.Length.</exception>
         public Span<T> Slice(int start, int length)
         {
-            if ((start < 0) || (start + length < 0) || (start + length > _length - _start))
+            if ((start < 0) || (length < 0) || (start + length > _length))
             {
                 throw new ArgumentOutOfRangeException($"start or start + length is less than zero or greater than length");
             }
@@ -169,8 +158,8 @@
         /// <returns> An array containing the data in the current span.</returns>
         public T[] ToArray()
         {
-            T[] array = new T[Length];
-            for (int i = 0; i < Length; i++)
+            T[] array = new T[_length];
+            for (int i = 0; i < _length; i++)
             {
                 array[i] = _array[_start + i];
             }
@@ -178,7 +167,7 @@
             return array;
         }
 
-        public static implicit operator Span<T>(T[]? array)
+        public static implicit operator Span<T>(T[] array)
         {
             return new Span<T>(array);
         }
