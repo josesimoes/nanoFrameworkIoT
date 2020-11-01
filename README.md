@@ -4,62 +4,56 @@ This repo is a prototype repository to explore how to better integrate [nanoFram
 
 In the repo:
 - Span
-  - Span<T> simple implementation to use as template for code generation (see later)
-  - SpanByte which can be automatically generated from the Span<T> template
-- BinaryPrimitives implementation with SpanByte and byte[]
+  - SpanByte which has been [implemented in nanoFramework](https://github.com/nanoframework/lib-CoreLibrary/blob/develop/nanoFramework.CoreLibrary/System/SpanByte.cs) which will be used to automatically generate Span<T>to SpanT
+- BinaryPrimitives implementation with SpanByte and byte[]. Note: the one which will be used it the SpanByte one. the byte[] was early work.
 - List<T> to be used as template to generate automatically List of anything
+  - ListByte is the one to be used as a template to generate List<T> to ListT.
 - Stopwatch
   - simple stopwatch non precise implementation using the DateTime object
-- UnitsNet simple implementation for couple os units used in .NET IoT
-- HSCR04 implementation
-- BMXX80 with more specifically BMP280 implementation
-- I2cDevice under System.Device.I2c allowing compatibility with System.Device.I2c from .NET IoT
-- GpioController under System.Device.Gpio allowing compatibility with System.Device.Gpio from .NET IoT
-- TestSpanRef a bug when using ref this
+- UnitsNet simple implementation for couple os units used in .NET IoT.
+- HSCR04 early implementation
+- BMXX80 with more specifically BMP280 implementation. This has been manually adjusted. And will be regenarated.
+- [System.Device.I2c](https://github.com/nanoframework/lib-System.Device.I2c) is now in nanoFramework and has been removed from this repo.
+- [System.Device.Gpio](https://github.com/nanoframework/lib-System.Device.Gpio) is now in nanoFramework and has been removed from this repo.
+- System.Device.Spi as a simple implementation in native code using the exisitng nanoFramework one. To be ported as well natively to nano
+- System.Device.Pwm as a simple implementation in native code using the exisitng nanoFramework one. To be ported as well natively to nano
+- TransforSpanList to transform automatically Span<T> and List<T> to SpanT and ListT
 
-# Path to automate automatic creation of nanFramework compatible bindings from .NET IoT code
+## Path to automate automatic creation of nanFramework compatible bindings from .NET IoT code
 
 Let's start with the limitations:
 - Linq is not supported, any binding using Linq won't be able to be generated
   - Mitigation buy not allowing usage of Linq. Most usage is about browsing collection to filter, can be done thru a basic function
   - For this prototype, I just removed those lines are not used in the sensor I was using.
-- Enum.IsDefined doen't exist in nanoFramework
-  - Mitigation by either removing it as used only to raise exception, should be able to be done autmatically
 - Issues with Math.Pow, Exp, etc on the ESP32 I am using, should be fixable
 - Generic are not supported => rathen than Span<byte> generate SpanByte, same for List<T> a specific class can be automatically generated from the template built.
 - stackalloc not supported => replacing by new
-- ArgumentOutOfRangeException is sometimes used with 3 arguments in .NET IoT, only 2 supported
-  - Mitigation: can be adjusted on nanoFramework or byt code un .NET IoT
+- Few things like ArgumentOutOfRangeException is sometimes used with 3 arguments in .NET IoT, only 2 supported
+  - Mitigation: can be adjusted on nanoFramework or by code in .NET IoT to have a consistent usage of it
 - Convert.ToByte(bool) doesn't exist
   - Mitigation, replace by bool ? 1 : 0
   - To implement in nanoFramework
-- Convert.ToBoolean(byte) doesn't exist
-  - Mitagation, replace by value == 0 ? false : true;
-  - Add it to nanoFramework
 
-Steps:
+Steps to automate:
 - Create a nanoFramework project and add all the files
 - Add the reference on the System.Device needed, same for the Span and other needed classes either thru the nuget either tru source code
 - Global replace for the project ReadOnlySpan<byte> by SpanByte, global replace Span<byte> by SpanByte
 - Global replace for the project stackalloc by new
-- Global replace Convert.ToByte(!value) by (byte)(!value ? 1 : 0), same for Convert.ToByte(value) by (byte)(value ? 1 : 0)
-- replace every Convert.ToBoolean by value == 0 ? false : true;
-- comment all Linq lines and all Enum.IsDefined lines
+- Find missing functions and implement them into nano
 
 Notes for Bmxx80:
-- All Enum.Isdefined code block removed
-- All Linq lines removed => the sensor using this won't work but some code must be rewritten to replace Linq
-- List<T> kept in the code => the sensor using this won't work but generating a List specific will fiw this issue
-- Sensor used is a BPM280, all code using Math.XXX has been removed for the sample (altitude calculation)
+- It has been adjusted manually, recreated automatically some times, it's a great example using things like Linq as well which should be adjusted in .NET IoT 
+- All Linq lines removed so far => the sensor using this won't work but some code must be rewritten to replace Linq
+- List<T> kept in the code => the sensor using this won't work but generating a List specific will fiw this issue, will have to generate to check
 
-# ToDo
+## ToDo
 
-- [ ] Add the various Convert. missing in nanoFramework
-- [ ] Work on migratin of Windows.Devices to System.Device, see [issue](https://github.com/nanoframework/Home/issues/620)
+- [x] Add the various Convert. missing in nanoFramework. More to come for sure but all very quick to do
+- [x] Work on migratin of Windows.Devices to System.Device, see [issue](https://github.com/nanoframework/Home/issues/620). Spi and Pwm missing
 - [X] Open issue on UnitsNet for autogeration of simple units nugets for nanoFramework based on the core units. See https://github.com/angularsen/UnitsNet/issues/836
-- [ ] Find a way o automatically replace Linq or change the policy and replace the few tens of lines in the current bindings
+- [ ] Find a way o automatically replace Linq or change the policy and replace the few tens of lines in the current bindings => need to adjust the .NET IoT code to get rid of those lines
 - [ ] Math.XXX [issues](https://github.com/nanoframework/Home/issues/642), a solution will be found.
 - [ ] Add more devices to check performance and migration path, discover new missing elements from System that may be used by other bindings
-- [ ] Create specific policies to make a binding nanoFramework compatible
-- [ ] Work on automated code to transform original code and create specific nanoFramework compatible project + work on CI/CD
-- [ ] Performance check on sensitive sensors like DHT
+- [ ] Create specific policies to make a binding nanoFramework compatible => work started
+- [ ] Work on automated code to transform original code and create specific nanoFramework compatible project + work on CI/CD => work started
+- [x] Performance check on sensitive sensors like DHT => DHT won't work on some devices like ESP32. But there are ways to have those devices working but not with GpioController => out of scope for automatic generation
