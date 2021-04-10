@@ -44,8 +44,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GpioController\GpioController.nfproj" />
-    <ProjectReference Include="..\I2cDevice\I2cDevice.nfproj" />
     <ProjectReference Include="..\Stopwatch\Stopwatch.nfproj" />
     <ProjectReference Include="..\UnitsNet\UnitsNet.nfproj" />
   </ItemGroup>

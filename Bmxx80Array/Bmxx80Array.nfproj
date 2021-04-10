@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BinaryPrimitivesByteArray\BinaryPrimitivesByteArray.nfproj" />
-    <ProjectReference Include="..\I2cDeviceByteArray\I2cDeviceByteArray.nfproj" />
     <ProjectReference Include="..\List\List.nfproj" />
     <ProjectReference Include="..\Stopwatch\Stopwatch.nfproj" />
     <ProjectReference Include="..\UnitsNet\UnitsNet.nfproj" />

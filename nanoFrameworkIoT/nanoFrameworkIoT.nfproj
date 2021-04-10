@@ -60,8 +60,6 @@
     <ProjectReference Include="..\Bmxx80\Bmxx80.nfproj" />
     <ProjectReference Include="..\Bmxx80\Bmxx80Array.nfproj" />
     <ProjectReference Include="..\Dhtxx\Dhtxx.nfproj" />
-    <ProjectReference Include="..\GpioController\GpioController.nfproj" />
-    <ProjectReference Include="..\I2cDevice\I2cDevice.nfproj" />
     <ProjectReference Include="..\Stopwatch\Stopwatch.nfproj" />
     <ProjectReference Include="..\UnitsNet\UnitsNet.nfproj" />
   </ItemGroup>
