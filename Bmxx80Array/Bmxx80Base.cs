@@ -226,11 +226,20 @@ namespace Iot.Device.Bmxx80
                     throw new NotImplementedException();
             }
 
-            return endianness switch
+            //return endianness switch
+            //{
+            //    Endianness.LittleEndian => BinaryPrimitives.ReadUInt16LittleEndian(bytes),
+            //    Endianness.BigEndian => BinaryPrimitives.ReadUInt16BigEndian(bytes),
+            //    _ => throw new ArgumentOutOfRangeException(nameof(endianness), endianness.ToString()) // Adjusted
+            //};
+            switch (endianness)
             {
-                Endianness.LittleEndian => BinaryPrimitives.ReadUInt16LittleEndian(bytes),
-                Endianness.BigEndian => BinaryPrimitives.ReadUInt16BigEndian(bytes),
-                _ => throw new ArgumentOutOfRangeException(nameof(endianness), endianness.ToString()) // Modified from original
+                case Endianness.LittleEndian:
+                    return BinaryPrimitives.ReadUInt16LittleEndian(bytes);
+                case Endianness.BigEndian:
+                    return BinaryPrimitives.ReadUInt16BigEndian(bytes);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(endianness), endianness.ToString()); // Modified from original
             };
         }
 
@@ -256,11 +265,20 @@ namespace Iot.Device.Bmxx80
                     throw new NotImplementedException();
             }
 
-            return endianness switch
+            //return endianness switch
+            //{
+            //    Endianness.LittleEndian => BinaryPrimitives.ReadUInt32LittleEndian(bytes),
+            //    Endianness.BigEndian => BinaryPrimitives.ReadUInt32BigEndian(bytes),
+            //    _ => throw new ArgumentOutOfRangeException(nameof(endianness), endianness.ToString()) // Modified from original
+            //};
+            switch (endianness)
             {
-                Endianness.LittleEndian => BinaryPrimitives.ReadUInt32LittleEndian(bytes),
-                Endianness.BigEndian => BinaryPrimitives.ReadUInt32BigEndian(bytes),
-                _ => throw new ArgumentOutOfRangeException(nameof(endianness), endianness.ToString()) // Modified from original
+                case Endianness.LittleEndian:
+                    return BinaryPrimitives.ReadUInt32LittleEndian(bytes);
+                case Endianness.BigEndian:
+                    return BinaryPrimitives.ReadUInt32BigEndian(bytes);
+                default: 
+                    throw new ArgumentOutOfRangeException(nameof(endianness), endianness.ToString()); // Modified from original
             };
         }
 

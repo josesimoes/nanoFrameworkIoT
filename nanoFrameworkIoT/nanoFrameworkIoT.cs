@@ -1,13 +1,13 @@
 ﻿
-using Windows.Devices.Gpio;
 using System.Threading;
 using Iot.Device.Hcsr04;
 using System.Diagnostics;
 using System;
 using Iot.Device.Samples;
-using Windows.Devices.I2c;
 using Iot.Device.DHTxx;
 using UnitsNet;
+using System.Device.Gpio;
+using System.Device.I2c;
 
 namespace NanoFrameworkIoT
 {
@@ -52,7 +52,7 @@ namespace NanoFrameworkIoT
 
         private static void CheckWithDeviceSystemI2cInline()
         {
-            _device = I2cDevice.FromId("I2C1", new I2cConnectionSettings(0x77) { BusSpeed = I2cBusSpeed.StandardMode, SharingMode = I2cSharingMode.Shared });
+            _device = I2cDevice.Create(new I2cConnectionSettings(1,0x77, I2cBusSpeed.StandardMode));
             WriteByte(0xD0);
             var ret = ReadByte();
             Debug.WriteLine($"{ret}");
@@ -81,12 +81,12 @@ namespace NanoFrameworkIoT
 
         private static void CheckDeviceIdWindowsDevicesI2c()
         {
-            var device = I2cDevice.FromId("I2C1", new I2cConnectionSettings(0x77) { BusSpeed = I2cBusSpeed.StandardMode, SharingMode = I2cSharingMode.Shared });
+            var device = I2cDevice.Create(new I2cConnectionSettings(1, 0x77, I2cBusSpeed.StandardMode));
             //var device = I2cController.GetDefault().GetDevice(new I2cConnectionSettings(0x77) { BusSpeed = I2cBusSpeed.StandardMode, SharingMode = I2cSharingMode.Shared });
             var toWrite = new byte[1];
             var toRead = new byte[1];
             toWrite[0] = 0xD0;
-            var ret = device.WriteReadPartial(toWrite, toRead);
+            var ret = device.WriteRead(toWrite, toRead);
 
             //device.Read(toWrite);
             Debug.WriteLine($"Ret: {ret.Status}, value :{toRead[0]}");
@@ -113,9 +113,9 @@ namespace NanoFrameworkIoT
         private static void HscGpioCore()
         {
             Hcsr04GpioCore sonar = new Hcsr04GpioCore(16, 17);
-            GpioPin led = GpioController.GetDefault().OpenPin(2);
-            led.SetDriveMode(GpioPinDriveMode.Output);
-            led.Write(GpioPinValue.High);
+            GpioPin led = new GpioController().OpenPin(2);
+            led.SetPinMode(PinMode.Output);
+            led.Write(PinValue.High);
             double dist;
 
             while (true)
@@ -143,10 +143,10 @@ namespace NanoFrameworkIoT
 
         private static void Blink()
         {
-            GpioPin led = GpioController.GetDefault().OpenPin(2);
-            led.SetDriveMode(GpioPinDriveMode.Output);
+            GpioPin led = new GpioController().OpenPin(2);
+            led.SetPinMode(PinMode.Output);
 
-            led.Write(GpioPinValue.Low);
+            led.Write(PinValue.Low);
             while (true)
             {
                 Thread.Sleep(500);
@@ -159,9 +159,9 @@ namespace NanoFrameworkIoT
             Dht12 dht = new Dht12(19);
             Temperature temp;
             Ratio hum;
-            GpioPin led = GpioController.GetDefault().OpenPin(2);
-            led.SetDriveMode(GpioPinDriveMode.Output);
-            led.Write(GpioPinValue.High);
+            GpioPin led = new GpioController().OpenPin(2);
+            led.SetPinMode(PinMode.Output);
+            led.Write(PinValue.High);
 
             while (true)
             {
@@ -180,7 +180,7 @@ namespace NanoFrameworkIoT
                 else
                 {
                     Debug.WriteLine("error reading dht");
-                    led.Write(GpioPinValue.High);
+                    led.Write(PinValue.High);
                 }
 
                 Thread.Sleep(1000);
