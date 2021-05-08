@@ -4,6 +4,7 @@
 
 using System;
 using System.Device.I2c;
+using System.Diagnostics;
 using System.Threading;
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.FilteringMode;
@@ -24,7 +25,7 @@ namespace Iot.Device.Samples
         /// <param name="args">Command line arguments</param>
         public static void StartBmp(string[] args)
         {
-            Console.WriteLine("Hello Bmp280!");
+            Debug.WriteLine("Hello Bmp280!");
 
             Length stationHeight = Length.FromMeters(640); // Elevation of the sensor
 
@@ -54,15 +55,15 @@ namespace Iot.Device.Samples
 
                     // read values
                     i2CBmp280.TryReadTemperature(out var tempValue);
-                    Console.WriteLine($"Temperature: {tempValue.DegreesCelsius} \u00B0C");
+                    Debug.WriteLine($"Temperature: {tempValue.DegreesCelsius} \u00B0C");
                     i2CBmp280.TryReadPressure(out var preValue);
-                    Console.WriteLine($"Pressure: {preValue.Hectopascals} hPa");
+                    Debug.WriteLine($"Pressure: {preValue.Hectopascals} hPa");
 
                     // Note that if you already have the pressure value and the temperature, you could also calculate altitude by using
                     // double altValue = WeatherHelper.CalculateAltitude(preValue, defaultSeaLevelPressure, tempValue) which would be more performant.
                      i2CBmp280.TryReadAltitude(out var altValue);
 
-                    Console.WriteLine($"Calculated Altitude: {altValue} m");
+                    Debug.WriteLine($"Calculated Altitude: {altValue} m");
                     Thread.Sleep(1000);
 
                     // change sampling rate
@@ -79,14 +80,14 @@ namespace Iot.Device.Samples
 
                     // read values
                     i2CBmp280.TryReadTemperature(out tempValue);
-                    Console.WriteLine($"Temperature: {tempValue.DegreesCelsius} \u00B0C");
+                    Debug.WriteLine($"Temperature: {tempValue.DegreesCelsius} \u00B0C");
                     i2CBmp280.TryReadPressure(out preValue);
-                    Console.WriteLine($"Pressure: {preValue.Hectopascals} hPa");
+                    Debug.WriteLine($"Pressure: {preValue.Hectopascals} hPa");
 
                     // This time use altitude calculation
                     altValue = WeatherHelper.CalculateAltitude(preValue, defaultSeaLevelPressure, tempValue);
 
-                    Console.WriteLine($"Calculated Altitude: {altValue} m");
+                    Debug.WriteLine($"Calculated Altitude: {altValue} m");
 
                     // Calculate the barometric (corrected) pressure for the local position.
                     // Change the stationHeight value above to get a correct reading, but do not be tempted to insert
@@ -94,7 +95,7 @@ namespace Iot.Device.Samples
                     // using that altitude to correct the pressure won't work.
                     var correctedPressure = WeatherHelper.CalculateBarometricPressure(preValue, tempValue, stationHeight);
 
-                    Console.WriteLine($"Pressure corrected for altitude {stationHeight.Meters} m (with average humidity): {correctedPressure.Hectopascals} hPa");
+                    Debug.WriteLine($"Pressure corrected for altitude {stationHeight.Meters} m (with average humidity): {correctedPressure.Hectopascals} hPa");
 
                     Thread.Sleep(5000);
                 }

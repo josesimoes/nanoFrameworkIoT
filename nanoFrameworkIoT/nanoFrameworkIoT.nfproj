@@ -26,13 +26,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="mscorlib, Version=1.9.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.CoreLibrary.1.9.0-preview.5\lib\mscorlib.dll</HintPath>
+    <Reference Include="mscorlib, Version=1.10.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.CoreLibrary.1.10.3-preview.20\lib\mscorlib.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="nanoFramework.Runtime.Events, Version=1.8.2.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Runtime.Events.1.8.2-preview.5\lib\nanoFramework.Runtime.Events.dll</HintPath>
+    <Reference Include="nanoFramework.Runtime.Events, Version=1.9.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.Runtime.Events.1.9.0-preview.16\lib\nanoFramework.Runtime.Events.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -41,13 +41,13 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="Windows.Devices.Gpio, Version=1.5.2.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Windows.Devices.Gpio.1.5.2-preview.8\lib\Windows.Devices.Gpio.dll</HintPath>
+    <Reference Include="System.Device.Gpio, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.System.Device.Gpio.1.0.0-preview.31\lib\System.Device.Gpio.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="Windows.Devices.I2c, Version=1.4.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Windows.Devices.I2c.1.4.1-preview.11\lib\Windows.Devices.I2c.dll</HintPath>
+    <Reference Include="System.Device.I2c, Version=1.0.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.System.Device.I2c.1.0.1-preview.30\lib\System.Device.I2c.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bmxx80\Bmxx80.nfproj" />
-    <ProjectReference Include="..\Bmxx80\Bmxx80Array.nfproj" />
     <ProjectReference Include="..\Dhtxx\Dhtxx.nfproj" />
     <ProjectReference Include="..\Stopwatch\Stopwatch.nfproj" />
     <ProjectReference Include="..\UnitsNet\UnitsNet.nfproj" />

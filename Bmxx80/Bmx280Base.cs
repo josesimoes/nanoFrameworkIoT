@@ -129,12 +129,24 @@ namespace Iot.Device.Bmxx80
             //    throw new IOException("Read unexpected power mode");
             //}
 
-            return powerMode switch
+            // commenting until the update to C# 8
+            //return powerMode switch
+            //{
+            //    0b00 => Bmx280PowerMode.Sleep,
+            //    0b10 => Bmx280PowerMode.Forced,
+            //    0b11 => Bmx280PowerMode.Normal,
+            //    _ => throw new NotImplementedException($"Read power mode not defined by specification.")
+            //};
+            switch (powerMode)
             {
-                0b00 => Bmx280PowerMode.Sleep,
-                0b10 => Bmx280PowerMode.Forced,
-                0b11 => Bmx280PowerMode.Normal,
-                _ => throw new NotImplementedException($"Read power mode not defined by specification.")
+                case 0b00:
+                    return Bmx280PowerMode.Sleep;
+                case 0b10:
+                    return Bmx280PowerMode.Forced;
+                case 0b11:
+                    return Bmx280PowerMode.Normal;
+                default:
+                    throw new NotImplementedException($"Read power mode not defined by specification.");
             };
         }
 

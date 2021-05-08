@@ -150,7 +150,7 @@ namespace System.Collections.Generic
         /// Returns an enumerator that iterates through the System.Collections.Generic.List.
         /// </summary>
         /// <returns>A System.Collections.Generic.List.Enumerator for the System.Collections.Generic.List.</returns>
-        public Enumerator GetEnumerator() => new Enumerator(this);
+        public IEnumerator<T> GetEnumerator() => new Enumerator(this);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
