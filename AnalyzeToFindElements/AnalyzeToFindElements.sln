@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyzeToFindElements", "AnalyzeToFindElements\AnalyzeToFindElements.csproj", "{EDEB2FBD-0C94-4C07-A642-43319E31FC44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyzeToFindElements", "AnalyzeToFindElements\AnalyzeToFindElements.csproj", "{EDEB2FBD-0C94-4C07-A642-43319E31FC44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsprojParsingNfprojGeneration", "CsprojParsingNfprojGeneration\CsprojParsingNfprojGeneration.csproj", "{342E638D-A263-4482-A023-C27E63922AC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EDEB2FBD-0C94-4C07-A642-43319E31FC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDEB2FBD-0C94-4C07-A642-43319E31FC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDEB2FBD-0C94-4C07-A642-43319E31FC44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{342E638D-A263-4482-A023-C27E63922AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{342E638D-A263-4482-A023-C27E63922AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{342E638D-A263-4482-A023-C27E63922AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{342E638D-A263-4482-A023-C27E63922AC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
