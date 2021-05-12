@@ -9,7 +9,6 @@ using System;
 using System.Buffers.Binary;
 using System.Device.I2c;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 
@@ -484,7 +483,7 @@ namespace Iot.Device.Vl53L0X
             // Get the SPAD information
             _i2cDevice.WriteByte((byte)Registers.GLOBAL_CONFIG_SPAD_ENABLES_REF_0);
             // Allocate 1 more byte as it will be used to send back the configuration
-            Span<byte> referenceSpadMap = stackalloc byte[7];
+            SpanByte referenceSpadMap = new byte[7];
             // Skip the first byte for reading, it will be used for writing
             _i2cDevice.Read(referenceSpadMap.Slice(1));
 
@@ -651,9 +650,9 @@ namespace Iot.Device.Vl53L0X
         /// Create the Info class. Initialization and closing sequences
         /// are coming form the official API
         /// </summary>
-#if !NETCOREAPP2_1
-        [MemberNotNull(nameof(Information))]
-#endif
+//#if !NETCOREAPP2_1
+//        [MemberNotNull(nameof(Information))]
+//#endif
         private void GetInfo()
         {
             // Initialization sequance
@@ -1049,13 +1048,19 @@ namespace Iot.Device.Vl53L0X
         /// </summary>
         /// <param name="type">The VCSEL period to decode</param>
         /// <returns>The decoded period</returns>
-        private byte GetVcselPulsePeriod(VcselType type) => type switch
-        {
-            VcselType.VcselPeriodPreRange => DecodeVcselPeriod(ReadByte((byte)Registers.PRE_RANGE_CONFIG_VCSEL_PERIOD)),
-            VcselType.VcselPeriodFinalRange => DecodeVcselPeriod(ReadByte((byte)Registers.FINAL_RANGE_CONFIG_VCSEL_PERIOD)),
-            // Should not arrive
-            _ => byte.MaxValue,
-        };
+        private byte GetVcselPulsePeriod(VcselType type) {
+            switch (type)
+            {
+                case VcselType.VcselPeriodPreRange:
+                    return DecodeVcselPeriod(ReadByte((byte)Registers.PRE_RANGE_CONFIG_VCSEL_PERIOD));
+                case VcselType.VcselPeriodFinalRange:
+                    return DecodeVcselPeriod(ReadByte((byte)Registers.FINAL_RANGE_CONFIG_VCSEL_PERIOD));
+                // Should not arrive
+                default:
+                    return byte.MaxValue;
+            };
+
+        }
 
         /// <summary>
         /// Encode VCSEL pulse period register value from period in PCLKs
@@ -1167,7 +1172,7 @@ namespace Iot.Device.Vl53L0X
             if (_shouldDispose)
             {
                 _i2cDevice?.Dispose();
-                _i2cDevice = null!;
+                _i2cDevice = null;
             }
         }
 
@@ -1184,7 +1189,7 @@ namespace Iot.Device.Vl53L0X
 
         private Int16 ReadInt16(byte reg)
         {
-            Span<byte> outArray = stackalloc byte[2];
+            SpanByte outArray = new byte[2];
             _i2cDevice.WriteByte(reg);
             _i2cDevice.Read(outArray);
             return BinaryPrimitives.ReadInt16BigEndian(outArray);
@@ -1192,7 +1197,7 @@ namespace Iot.Device.Vl53L0X
 
         private ushort ReadUInt16(byte reg)
         {
-            Span<byte> outArray = stackalloc byte[2];
+            SpanByte outArray = new byte[2];
             _i2cDevice.WriteByte(reg);
             _i2cDevice.Read(outArray);
             return BinaryPrimitives.ReadUInt16BigEndian(outArray);
@@ -1200,7 +1205,7 @@ namespace Iot.Device.Vl53L0X
 
         private uint ReadUIn32(byte reg)
         {
-            Span<byte> outArray = stackalloc byte[4];
+            SpanByte outArray = new byte[4];
             _i2cDevice.WriteByte(reg);
             _i2cDevice.Read(outArray);
             return BinaryPrimitives.ReadUInt32BigEndian(outArray);
@@ -1208,7 +1213,7 @@ namespace Iot.Device.Vl53L0X
 
         private void WriteInt16(byte reg, short data)
         {
-            Span<byte> outArray = stackalloc byte[3];
+            SpanByte outArray = new byte[3];
             outArray[0] = reg;
             BinaryPrimitives.WriteInt16BigEndian(outArray.Slice(1), data);
             _i2cDevice.Write(outArray);
@@ -1216,7 +1221,7 @@ namespace Iot.Device.Vl53L0X
 
         private void WriteUInt16(byte reg, ushort data)
         {
-            Span<byte> outArray = stackalloc byte[3];
+            SpanByte outArray = new byte[3];
             outArray[0] = reg;
             BinaryPrimitives.WriteUInt16BigEndian(outArray.Slice(1), data);
             _i2cDevice.Write(outArray);
@@ -1224,7 +1229,7 @@ namespace Iot.Device.Vl53L0X
 
         private void WriteInt32(byte reg, int data)
         {
-            Span<byte> outArray = stackalloc byte[5];
+            SpanByte outArray = new byte[5];
             outArray[0] = reg;
             BinaryPrimitives.WriteInt32BigEndian(outArray.Slice(1), data);
             _i2cDevice.Write(outArray);
@@ -1232,7 +1237,7 @@ namespace Iot.Device.Vl53L0X
 
         private void WriteUInt32(byte reg, uint data)
         {
-            Span<byte> outArray = stackalloc byte[5];
+            SpanByte outArray = new byte[5];
             outArray[0] = reg;
             BinaryPrimitives.WriteUInt32BigEndian(outArray.Slice(1), data);
             _i2cDevice.Write(outArray);

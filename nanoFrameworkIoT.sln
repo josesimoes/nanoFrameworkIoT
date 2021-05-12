@@ -25,6 +25,12 @@ Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "SpiDevice", "SpiDevice\SpiD
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "PwmChannels", "PwmChannels\PwmChannels.nfproj", "{B43B046C-BD32-4AA2-8350-C652485CDA73}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "devices", "devices", "{2A618CF4-B768-473A-B77F-3BE701868C5B}"
+EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "vl53l0x", "devices\Vl53L0X\vl53l0x.nfproj", "{6ED6D836-AB0A-4057-B038-AC3A9BEC3A80}"
+EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "vl53l0x.sample", "devices\Vl53L0X\samples\vl53l0x.sample.nfproj", "{0480F474-CB01-4C27-A80A-64BA3953B637}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,9 +103,25 @@ Global
 		{B43B046C-BD32-4AA2-8350-C652485CDA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B43B046C-BD32-4AA2-8350-C652485CDA73}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B43B046C-BD32-4AA2-8350-C652485CDA73}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6ED6D836-AB0A-4057-B038-AC3A9BEC3A80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED6D836-AB0A-4057-B038-AC3A9BEC3A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED6D836-AB0A-4057-B038-AC3A9BEC3A80}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6ED6D836-AB0A-4057-B038-AC3A9BEC3A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED6D836-AB0A-4057-B038-AC3A9BEC3A80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ED6D836-AB0A-4057-B038-AC3A9BEC3A80}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0480F474-CB01-4C27-A80A-64BA3953B637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0480F474-CB01-4C27-A80A-64BA3953B637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0480F474-CB01-4C27-A80A-64BA3953B637}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0480F474-CB01-4C27-A80A-64BA3953B637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0480F474-CB01-4C27-A80A-64BA3953B637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0480F474-CB01-4C27-A80A-64BA3953B637}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6ED6D836-AB0A-4057-B038-AC3A9BEC3A80} = {2A618CF4-B768-473A-B77F-3BE701868C5B}
+		{0480F474-CB01-4C27-A80A-64BA3953B637} = {2A618CF4-B768-473A-B77F-3BE701868C5B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED0BE4BF-CB02-4B50-95E9-E613CF3D00FB}
