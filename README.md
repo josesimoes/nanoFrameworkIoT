@@ -78,7 +78,7 @@ Notes for Bmxx80:
 - [x] Work on migratin of Windows.Devices to System.Device, see [issue](https://github.com/nanoframework/Home/issues/620). Spi and Pwm missing
 - [X] Open issue on UnitsNet for autogeration of simple units nugets for nanoFramework based on the core units. See https://github.com/angularsen/UnitsNet/issues/836. A PR has been raised, closed and will reopen, so focus can be placed on the main units.
 - [ ] Find a way o automatically replace Linq or change the policy and replace the few tens of lines in the current bindings => need to adjust the .NET IoT code to get rid of those lines
-- [ ] Math.XXX [issues](https://github.com/nanoframework/Home/issues/642), a solution will be found.
+- [x] Math.XXX [issues](https://github.com/nanoframework/Home/issues/642), ~~solution will be found.~~ Fixed: API now in sync with the .NET API.
 - [ ] Add more devices to check performance and migration path, discover new missing elements from System that may be used by other bindings
 - [ ] Create specific policies to make a binding nanoFramework compatible => work started
 - [ ] Work on automated code to transform original code and create specific nanoFramework compatible project + work on CI/CD => work started
